@@ -1,0 +1,17 @@
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\bin\Debug\net9.0\ShopInfrastructure.deps.json
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\bin\Debug\net9.0\ShopInfrastructure.runtimeconfig.json
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\bin\Debug\net9.0\ShopInfrastructure.dll
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\bin\Debug\net9.0\ShopInfrastructure.pdb
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\bin\Debug\net9.0\ShopDomain.dll
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\bin\Debug\net9.0\ShopDomain.pdb
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ShopInfrastructure.csproj.AssemblyReference.cache
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ShopInfrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ShopInfrastructure.AssemblyInfoInputs.cache
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ShopInfrastructure.AssemblyInfo.cs
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ShopInfrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ShopInfr.C999AA09.Up2Date
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ShopInfrastructure.dll
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\refint\ShopInfrastructure.dll
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ShopInfrastructure.pdb
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ShopInfrastructure.genruntimeconfig.cache
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopInfrastructure\obj\Debug\net9.0\ref\ShopInfrastructure.dll

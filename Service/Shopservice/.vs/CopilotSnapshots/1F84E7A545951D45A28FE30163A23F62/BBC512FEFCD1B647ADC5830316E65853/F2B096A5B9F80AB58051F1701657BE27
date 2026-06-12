@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using ShopDomain.Entities;
+
+namespace ShopInfrastructure.Data
+{
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configure Product entity
+            modelBuilder.Entity<Product>()
+                .HasKey(p => p.Id);
+
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.ProductCategory)
+                .WithMany(pc => pc.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Amount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.BaseDiscountInPercentage)
+                .HasPrecision(5, 2);
+
+            // Configure ProductCategory entity
+            modelBuilder.Entity<ProductCategory>()
+                .HasKey(pc => pc.Id);
+
+            modelBuilder.Entity<ProductCategory>()
+                .HasIndex(pc => pc.Category)
+                .IsUnique();
+
+            modelBuilder.Entity<ProductCategory>()
+                .Property(pc => pc.Category)
+                .HasMaxLength(100)
+                .IsRequired();
+        }
+    }
+}

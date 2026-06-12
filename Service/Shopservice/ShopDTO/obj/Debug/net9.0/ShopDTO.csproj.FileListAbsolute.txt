@@ -1,0 +1,14 @@
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\bin\Debug\net9.0\ShopDTO.deps.json
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\bin\Debug\net9.0\ShopDTO.runtimeconfig.json
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\bin\Debug\net9.0\ShopDTO.dll
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\bin\Debug\net9.0\ShopDTO.pdb
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\ShopDTO.csproj.AssemblyReference.cache
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\ShopDTO.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\ShopDTO.AssemblyInfoInputs.cache
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\ShopDTO.AssemblyInfo.cs
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\ShopDTO.csproj.CoreCompileInputs.cache
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\ShopDTO.dll
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\refint\ShopDTO.dll
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\ShopDTO.pdb
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\ShopDTO.genruntimeconfig.cache
+C:\Users\Rajin\Work\Shop\Service\ShopService\ShopDTO\obj\Debug\net9.0\ref\ShopDTO.dll

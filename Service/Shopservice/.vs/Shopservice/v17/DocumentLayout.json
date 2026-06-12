@@ -1,0 +1,149 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Rajin\\Work\\Shop\\Service\\Shopservice\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{343E85DC-18D3-43D7-A520-4B67EAD050BE}|Shopservice\\Shopservice.csproj|c:\\users\\rajin\\work\\shop\\service\\shopservice\\shopservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{343E85DC-18D3-43D7-A520-4B67EAD050BE}|Shopservice\\Shopservice.csproj|solutionrelative:shopservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{343E85DC-18D3-43D7-A520-4B67EAD050BE}|Shopservice\\Shopservice.csproj|c:\\users\\rajin\\work\\shop\\service\\shopservice\\shopservice\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{343E85DC-18D3-43D7-A520-4B67EAD050BE}|Shopservice\\Shopservice.csproj|solutionrelative:shopservice\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E8B5276E-D83C-41AA-9C0F-4994CC3EEBF1}|ShopApplication\\ShopApplication.csproj|c:\\users\\rajin\\work\\shop\\service\\shopservice\\shopapplication\\commands\\logincommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E8B5276E-D83C-41AA-9C0F-4994CC3EEBF1}|ShopApplication\\ShopApplication.csproj|solutionrelative:shopapplication\\commands\\logincommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E8B5276E-D83C-41AA-9C0F-4994CC3EEBF1}|ShopApplication\\ShopApplication.csproj|c:\\users\\rajin\\work\\shop\\service\\shopservice\\shopapplication\\handlers\\logincommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E8B5276E-D83C-41AA-9C0F-4994CC3EEBF1}|ShopApplication\\ShopApplication.csproj|solutionrelative:shopapplication\\handlers\\logincommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 16,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:469269523:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:143827984:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1584559376:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:4:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:5:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:7:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:6:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:9:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1936089680:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:307780684:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:208784912:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:384270505:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:573115138:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Rajin\\Work\\Shop\\Service\\Shopservice\\Shopservice\\Program.cs",
+              "RelativeDocumentMoniker": "Shopservice\\Program.cs",
+              "ToolTip": "C:\\Users\\Rajin\\Work\\Shop\\Service\\Shopservice\\Shopservice\\Program.cs",
+              "RelativeToolTip": "Shopservice\\Program.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAmwHAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T10:32:09.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\Rajin\\Work\\Shop\\Service\\Shopservice\\Shopservice\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Shopservice\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\Rajin\\Work\\Shop\\Service\\Shopservice\\Shopservice\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Shopservice\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAYwBoAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T10:04:00.442Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginCommand.cs",
+              "DocumentMoniker": "C:\\Users\\Rajin\\Work\\Shop\\Service\\Shopservice\\ShopApplication\\Commands\\LoginCommand.cs",
+              "RelativeDocumentMoniker": "ShopApplication\\Commands\\LoginCommand.cs",
+              "ToolTip": "C:\\Users\\Rajin\\Work\\Shop\\Service\\Shopservice\\ShopApplication\\Commands\\LoginCommand.cs",
+              "RelativeToolTip": "ShopApplication\\Commands\\LoginCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T10:03:45.055Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoginCommandHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Rajin\\Work\\Shop\\Service\\Shopservice\\ShopApplication\\Handlers\\LoginCommandHandler.cs",
+              "RelativeDocumentMoniker": "ShopApplication\\Handlers\\LoginCommandHandler.cs",
+              "ToolTip": "C:\\Users\\Rajin\\Work\\Shop\\Service\\Shopservice\\ShopApplication\\Handlers\\LoginCommandHandler.cs",
+              "RelativeToolTip": "ShopApplication\\Handlers\\LoginCommandHandler.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-10T09:59:09.989Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

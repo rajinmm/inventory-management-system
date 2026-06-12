@@ -1,0 +1,52 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using ShopApplication.Commands;
+using ShopDTO.DTOs;
+
+namespace Shopservice.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class OrdersController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public OrdersController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CreateOrderResponse>> CreateOrder([FromBody] CreateOrderRequest orderRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var command = new CreateOrderCommand(
+                    orderRequest.CustName,
+                    orderRequest.CustPhone,
+                    orderRequest.OrderNote,
+                    orderRequest.OrderStatus,
+                    orderRequest.OrderDetails
+                );
+                var result = await _mediator.Send(command);
+                return CreatedAtAction(nameof(CreateOrder), new { id = result.Id }, result);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while creating the order.", error = ex.Message });
+            }
+        }
+    }
+}

@@ -1,0 +1,32 @@
+﻿using MediatR;
+using ShopDTO.DTOs;
+using ShopInfrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace ShopApplication.Handlers
+{
+    public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery, List<GetAllCategoriesResponse>>
+    {
+        private readonly ApplicationDbContext _dbContext;
+
+        public GetAllCategoriesQueryHandler(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task<List<GetAllCategoriesResponse>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+        {
+            var categories = await _dbContext.Categories
+                .Select(c => new GetAllCategoriesResponse
+                {
+                    Id = c.Id,
+                    CategoryName = c.CategoryName,
+                    CreatedAt = c.CreatedAt,
+                    UpdatedAt = c.UpdatedAt
+                })
+                .ToListAsync(cancellationToken);
+
+            return categories;
+        }
+    }
+}

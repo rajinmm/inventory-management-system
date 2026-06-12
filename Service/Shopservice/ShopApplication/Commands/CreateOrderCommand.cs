@@ -1,0 +1,13 @@
+using ShopDTO.DTOs;
+using MediatR;
+
+namespace ShopApplication.Commands
+{
+    public record CreateOrderCommand(
+        string CustName,
+        string CustPhone,
+        string OrderNote,
+        int OrderStatus,
+        List<CreateOrderDetailRequest> OrderDetails
+    ) : IRequest<CreateOrderResponse>;
+}

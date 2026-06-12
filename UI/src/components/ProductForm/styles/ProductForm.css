@@ -1,0 +1,30 @@
+.sfield-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.sfield-label {
+  width: 150px;
+}
+
+.sfield-label-error {
+  color: red !important;
+}
+
+.sfield-error-text {
+  margin-left: 115px; /* aligns under textbox */
+  color: red;
+  font-size: 12px;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.sform-field {
+  margin-bottom: 20px;
+}
+
+.sfield-form {
+  width: 350px;
+}

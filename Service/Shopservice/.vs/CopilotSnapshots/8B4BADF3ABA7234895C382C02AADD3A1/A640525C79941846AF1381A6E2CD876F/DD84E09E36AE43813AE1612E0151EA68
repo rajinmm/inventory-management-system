@@ -1,0 +1,127 @@
+﻿using ShopDomain.Entities;
+using ShopDTO.DTOs;
+using ShopInfrastructure.Data;
+using ShopApplication.Commands;
+using Microsoft.EntityFrameworkCore;
+
+namespace ShopApplication.Handlers
+{
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, CreateOrderResponse>
+    {
+        private readonly ApplicationDbContext _dbContext;
+
+        public CreateOrderCommandHandler(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task<CreateOrderResponse> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+        {
+            // Validate input
+            if (string.IsNullOrWhiteSpace(request.CustName))
+            {
+                throw new ArgumentException("Customer name cannot be empty.");
+            }
+
+            if (string.IsNullOrWhiteSpace(request.CustPhone))
+            {
+                throw new ArgumentException("Customer phone cannot be empty.");
+            }
+
+            if (request.OrderDetails == null || request.OrderDetails.Count == 0)
+            {
+                throw new ArgumentException("Order must contain at least one product.");
+            }
+
+            // Validate that all products exist
+            var productIds = request.OrderDetails.Select(od => od.ProductId).Distinct().ToList();
+            var products = await _dbContext.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToListAsync(cancellationToken);
+
+            if (products.Count != productIds.Count)
+            {
+                throw new InvalidOperationException("One or more products do not exist.");
+            }
+
+            // Create order entity
+            var order = new Order
+            {
+                CustName = request.CustName,
+                CustPhone = request.CustPhone,
+                OrderNote = request.OrderNote,
+                OrderStatus = request.OrderStatus,
+                GrossAmount = 0,
+                NetAmount = 0,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            decimal totalGrossAmount = 0;
+            decimal totalNetAmount = 0;
+
+            // Create order details
+            var orderDetails = new List<OrderDetail>();
+            foreach (var detailRequest in request.OrderDetails)
+            {
+                var product = products.FirstOrDefault(p => p.Id == detailRequest.ProductId);
+                if (product == null)
+                {
+                    throw new InvalidOperationException($"Product with ID {detailRequest.ProductId} not found.");
+                }
+
+                var grossAmount = product.Amount * detailRequest.Qty;
+                var discountAmount = grossAmount * (product.BaseDiscountInPercentage / 100);
+                var netAmount = grossAmount - discountAmount;
+
+                var orderDetail = new OrderDetail
+                {
+                    ProductId = detailRequest.ProductId,
+                    Qty = detailRequest.Qty,
+                    GrossAmount = grossAmount,
+                    NetAmount = netAmount
+                };
+
+                orderDetails.Add(orderDetail);
+                totalGrossAmount += grossAmount;
+                totalNetAmount += netAmount;
+            }
+
+            // Set totals
+            order.GrossAmount = totalGrossAmount;
+            order.NetAmount = totalNetAmount;
+
+            // Add order and details to database
+            _dbContext.Orders.Add(order);
+            foreach (var detail in orderDetails)
+            {
+                detail.OrderId = order.Id;
+                order.OrderDetails.Add(detail);
+            }
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            // Return response DTO
+            return new CreateOrderResponse
+            {
+                Id = order.Id,
+                CustName = order.CustName,
+                CustPhone = order.CustPhone,
+                OrderNote = order.OrderNote,
+                OrderStatus = order.OrderStatus,
+                GrossAmount = order.GrossAmount,
+                NetAmount = order.NetAmount,
+                CreatedAt = order.CreatedAt,
+                UpdatedAt = order.UpdatedAt,
+                OrderDetails = orderDetails.Select(od => new OrderDetailResponse
+                {
+                    Id = od.Id,
+                    OrderId = od.OrderId,
+                    ProductId = od.ProductId,
+                    Qty = od.Qty,
+                    GrossAmount = od.GrossAmount,
+                    NetAmount = od.NetAmount
+                }).ToList()
+            };
+        }
+    }
+}

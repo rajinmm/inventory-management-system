@@ -1,0 +1,36 @@
+﻿using MediatR;
+using ShopDTO.DTOs;
+using ShopInfrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace ShopApplication.Handlers
+{
+    public class GetAllProductsQueryHandler : IRequestHandler<GetAllProductsQuery, List<GetAllProductsResponse>>
+    {
+        private readonly ApplicationDbContext _dbContext;
+
+        public GetAllProductsQueryHandler(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task<List<GetAllProductsResponse>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+        {
+            var products = await _dbContext.Products
+                .Select(p => new GetAllProductsResponse
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Amount = p.Amount,
+                    Description = p.Description,
+                    CategoryId = p.CategoryId,
+                    BaseDiscountInPercentage = p.BaseDiscountInPercentage,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt
+                })
+                .ToListAsync(cancellationToken);
+
+            return products;
+        }
+    }
+}

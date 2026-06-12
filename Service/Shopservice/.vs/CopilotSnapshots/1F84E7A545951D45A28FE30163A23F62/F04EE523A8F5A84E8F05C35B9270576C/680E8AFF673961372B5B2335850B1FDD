@@ -1,0 +1,361 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using ShopDomain.Entities;
+
+namespace ShopInfrastructure.Data;
+
+public class ApplicationDbContext : DbContext
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {
+    }
+
+    // DbSets for all entities
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderDetail> OrderDetails { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Category configuration
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.ToTable("Categories");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.CategoryName).IsRequired();
+            entity.HasMany(e => e.Products)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // Product configuration
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.ToTable("Products");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.Amount).HasColumnType("decimal(18,2)").IsRequired();
+            entity.Property(e => e.BaseDiscountInPercentage).IsRequired();
+            entity.HasOne(e => e.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(e => e.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+            entity.HasMany(e => e.OrderDetails)
+                .WithOne(od => od.Product)
+                .HasForeignKey(od => od.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // UserRole configuration
+        modelBuilder.Entity<UserRole>(entity =>
+        {
+            entity.ToTable("UserRoles");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Role).IsRequired();
+            entity.HasMany(e => e.Users)
+                .WithOne(u => u.UserRole)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // User configuration
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.ToTable("Users");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired();
+            entity.Property(e => e.UserLogin).IsRequired();
+            entity.Property(e => e.Password).IsRequired();
+            entity.HasOne(e => e.UserRole)
+                .WithMany(ur => ur.Users)
+                .HasForeignKey(e => e.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
+            entity.HasIndex(e => e.UserLogin).IsUnique();
+        });
+
+        // Order configuration
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.ToTable("Orders");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.CustName).IsRequired();
+            entity.Property(e => e.CustPhone).IsRequired();
+            entity.Property(e => e.OrderStatus).IsRequired();
+            entity.Property(e => e.GrossAmount).HasColumnType("decimal(18,2)").IsRequired();
+            entity.Property(e => e.NetAmount).HasColumnType("decimal(18,2)").IsRequired();
+            entity.HasMany(e => e.OrderDetails)
+                .WithOne(od => od.Order)
+                .HasForeignKey(od => od.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // OrderDetail configuration (Composite Key)
+        modelBuilder.Entity<OrderDetail>(entity =>
+        {
+            entity.ToTable("OrderDetails");
+            entity.HasKey(e => new { e.OrderId, e.ProductId });
+            entity.Property(e => e.Qty).IsRequired();
+            entity.Property(e => e.GrossAmount).HasColumnType("decimal(18,2)").IsRequired();
+            entity.Property(e => e.NetAmount).HasColumnType("decimal(18,2)").IsRequired();
+            entity.HasOne(e => e.Order)
+                .WithMany(o => o.OrderDetails)
+                .HasForeignKey(e => e.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(e => e.Product)
+                .WithMany(p => p.OrderDetails)
+                .HasForeignKey(e => e.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // Seed data with static hardcoded dates
+        SeedData(modelBuilder);
+    }
+
+    private void SeedData(ModelBuilder modelBuilder)
+    {
+        // Static hardcoded date for all seed data
+        var createdDate = new DateTime(2026, 01, 01, 12, 0, 0);
+
+        // Seed UserRoles
+        modelBuilder.Entity<UserRole>().HasData(
+            new UserRole
+            {
+                Id = 1,
+                Role = "Admin",
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new UserRole
+            {
+                Id = 2,
+                Role = "User",
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new UserRole
+            {
+                Id = 3,
+                Role = "Manager",
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            }
+        );
+
+        // Seed Users
+        modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                Id = 1,
+                Name = "Admin User",
+                UserLogin = "admin",
+                Password = "admin@123", // Hash this in production!
+                RoleId = 1,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new User
+            {
+                Id = 2,
+                Name = "John Manager",
+                UserLogin = "manager",
+                Password = "manager@123",
+                RoleId = 3,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new User
+            {
+                Id = 3,
+                Name = "Regular User",
+                UserLogin = "user",
+                Password = "user@123",
+                RoleId = 2,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            }
+        );
+
+        // Seed Categories
+        modelBuilder.Entity<Category>().HasData(
+            new Category
+            {
+                Id = 1,
+                CategoryName = "Electronics",
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new Category
+            {
+                Id = 2,
+                CategoryName = "Clothing",
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new Category
+            {
+                Id = 3,
+                CategoryName = "Books",
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new Category
+            {
+                Id = 4,
+                CategoryName = "Home & Garden",
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            }
+        );
+
+        // Seed Products
+        modelBuilder.Entity<Product>().HasData(
+            new Product
+            {
+                Id = 1,
+                Name = "Laptop",
+                Amount = 999.99m,
+                Description = "High-performance laptop for work and gaming",
+                CategoryId = 1,
+                BaseDiscountInPercentage = 5,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new Product
+            {
+                Id = 2,
+                Name = "Desktop Computer",
+                Amount = 1299.99m,
+                Description = "Powerful desktop for professionals",
+                CategoryId = 1,
+                BaseDiscountInPercentage = 10,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new Product
+            {
+                Id = 3,
+                Name = "T-Shirt",
+                Amount = 29.99m,
+                Description = "Comfortable cotton t-shirt",
+                CategoryId = 2,
+                BaseDiscountInPercentage = 15,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new Product
+            {
+                Id = 4,
+                Name = "Jeans",
+                Amount = 59.99m,
+                Description = "Durable blue jeans",
+                CategoryId = 2,
+                BaseDiscountInPercentage = 20,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new Product
+            {
+                Id = 5,
+                Name = "C# Programming Book",
+                Amount = 49.99m,
+                Description = "Learn C# from basics to advanced",
+                CategoryId = 3,
+                BaseDiscountInPercentage = 25,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new Product
+            {
+                Id = 6,
+                Name = "Desk Lamp",
+                Amount = 39.99m,
+                Description = "Bright LED desk lamp for studying",
+                CategoryId = 4,
+                BaseDiscountInPercentage = 12,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            }
+        );
+
+        // Seed Orders (Optional - sample data)
+        modelBuilder.Entity<Order>().HasData(
+            new Order
+            {
+                Id = 1,
+                CustName = "Rajesh Kumar",
+                CustPhone = "9876543210",
+                OrderNote = "Please deliver by 5 PM",
+                OrderStatus = 1,
+                GrossAmount = 1299.97m,
+                NetAmount = 1169.97m,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            },
+            new Order
+            {
+                Id = 2,
+                CustName = "Priya Singh",
+                CustPhone = "9876543211",
+                OrderNote = "Gift wrapping required",
+                OrderStatus = 2,
+                GrossAmount = 89.98m,
+                NetAmount = 71.98m,
+                CreatedAt = createdDate,
+                UpdatedAt = createdDate,
+                IsDeleted = false
+            }
+        );
+
+        // Seed OrderDetails (Optional - sample data)
+        modelBuilder.Entity<OrderDetail>().HasData(
+            new OrderDetail
+            {
+                OrderId = 1,
+                ProductId = 2,
+                Qty = 1,
+                GrossAmount = 1299.99m,
+                NetAmount = 1169.99m
+            },
+            new OrderDetail
+            {
+                OrderId = 2,
+                ProductId = 3,
+                Qty = 2,
+                GrossAmount = 59.98m,
+                NetAmount = 47.98m
+            },
+            new OrderDetail
+            {
+                OrderId = 2,
+                ProductId = 4,
+                Qty = 1,
+                GrossAmount = 59.99m,
+                NetAmount = 47.99m
+            }
+        );
+    }
+}

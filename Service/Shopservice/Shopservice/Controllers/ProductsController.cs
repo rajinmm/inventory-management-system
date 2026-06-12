@@ -1,0 +1,66 @@
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using ShopApplication.Commands;
+using ShopApplication.Queries;
+using ShopDTO;
+using ShopDTO.DTOs;
+
+namespace Shopservice.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductsController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public ProductsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<GetAllProductsResponse>>> GetAllProducts()
+        {
+            try
+            {
+                var query = new GetAllProductsQuery();
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while retrieving products.", error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CreateProductResponse>> CreateProduct([FromBody] CreateProductRequest productRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var command = new CreateProductCommand(
+                    productRequest.Name,
+                    productRequest.Amount,
+                    productRequest.Description,
+                    productRequest.CategoryId,
+                    productRequest.BaseDiscountInPercentage
+                );
+                var result = await _mediator.Send(command);
+                return CreatedAtAction(nameof(CreateProduct), new { id = result.Id }, result);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while creating the product.", error = ex.Message });
+            }
+        }
+    }
+}

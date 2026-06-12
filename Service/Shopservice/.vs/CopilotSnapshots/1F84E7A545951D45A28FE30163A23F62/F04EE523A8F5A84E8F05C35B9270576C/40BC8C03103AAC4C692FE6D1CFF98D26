@@ -1,0 +1,258 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace ShopInfrastructure.Migrations
+{
+    /// <inheritdoc />
+    public partial class InitialCreate : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CategoryName = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CustName = table.Column<string>(type: "TEXT", nullable: false),
+                    CustPhone = table.Column<string>(type: "TEXT", nullable: false),
+                    OrderNote = table.Column<string>(type: "TEXT", nullable: false),
+                    OrderStatus = table.Column<int>(type: "INTEGER", nullable: false),
+                    GrossAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    NetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Role = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BaseDiscountInPercentage = table.Column<float>(type: "REAL", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    UserLogin = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    RoleId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_UserRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "UserRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                columns: table => new
+                {
+                    OrderId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProductId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Qty = table.Column<int>(type: "INTEGER", nullable: false),
+                    GrossAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    NetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => new { x.OrderId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "CategoryName", "CreatedAt", "IsDeleted", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, "Electronics", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "Clothing", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, "Books", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, "Home & Garden", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "Id", "CreatedAt", "CustName", "CustPhone", "GrossAmount", "IsDeleted", "NetAmount", "OrderNote", "OrderStatus", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "Rajesh Kumar", "9876543210", 1299.97m, false, 1169.97m, "Please deliver by 5 PM", 1, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "Priya Singh", "9876543211", 89.98m, false, 71.98m, "Gift wrapping required", 2, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "Id", "CreatedAt", "IsDeleted", "Role", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, "Admin", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, "User", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, "Manager", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Amount", "BaseDiscountInPercentage", "CategoryId", "CreatedAt", "Description", "IsDeleted", "Name", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, 999.99m, 5f, 1, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "High-performance laptop for work and gaming", false, "Laptop", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 1299.99m, 10f, 1, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "Powerful desktop for professionals", false, "Desktop Computer", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 29.99m, 15f, 2, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "Comfortable cotton t-shirt", false, "T-Shirt", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 59.99m, 20f, 2, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "Durable blue jeans", false, "Jeans", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 49.99m, 25f, 3, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "Learn C# from basics to advanced", false, "C# Programming Book", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 39.99m, 12f, 4, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "Bright LED desk lamp for studying", false, "Desk Lamp", new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "CreatedAt", "IsDeleted", "Name", "Password", "RoleId", "UpdatedAt", "UserLogin" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, "Admin User", "admin@123", 1, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "admin" },
+                    { 2, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, "John Manager", "manager@123", 3, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "manager" },
+                    { 3, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), false, "Regular User", "user@123", 2, new DateTime(2026, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), "user" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "OrderDetails",
+                columns: new[] { "OrderId", "ProductId", "CreatedAt", "GrossAmount", "Id", "IsDeleted", "NetAmount", "Qty", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, 2, new DateTime(2026, 2, 26, 10, 37, 42, 146, DateTimeKind.Utc).AddTicks(1072), 1299.99m, 0, false, 1169.99m, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 3, new DateTime(2026, 2, 26, 10, 37, 42, 146, DateTimeKind.Utc).AddTicks(2016), 59.98m, 0, false, 47.98m, 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 4, new DateTime(2026, 2, 26, 10, 37, 42, 146, DateTimeKind.Utc).AddTicks(2018), 59.99m, 0, false, 47.99m, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_ProductId",
+                table: "OrderDetails",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_CategoryId",
+                table: "Products",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserLogin",
+                table: "Users",
+                column: "UserLogin",
+                unique: true);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "OrderDetails");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
+        }
+    }
+}
